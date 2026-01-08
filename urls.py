@@ -1,3 +1,7 @@
+from django.db import models
+
+
+
 """
 URL configuration for myproject project.
 
@@ -15,18 +19,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
-from .views import UserAPI
-from . import views
+# from django.contrib import admin
+# from django.urls import path, include
+
+# urlpatterns = [
+#     path("admin/", admin.site.urls),
+#     path("customer/", include('customer.urls')),  # This includes your app's URL configuration
+
+# ]
+
+
+
+
+from django.contrib import admin
+from django.urls import path, include
+from django.http import HttpResponse
+
+# Define a view for the root path to return a welcome message or a default response
+def home(request):
+    return HttpResponse("Welcome to the Customer API! Use /customer/ to interact with the API.")
 
 urlpatterns = [
-    path('', UserAPI.as_view(), name='root'),
-    path('user/', views.UserAPI.as_view(), name='user_api'),
-    path('<int:id>/', UserAPI.as_view(), name='_detail'), 
-
-
-# wrong =>
-    # path('', views.get, name='CustomerAPI'),
-    # path("customer", views.get, name="customer"),
-    # path("", views.get, name="customer"),
+    path('admin/', admin.site.urls),  # Admin URL
+    path('customer/', include('customer.urls')),  # Your app's customer URLs
+    path('user/', include('user.urls')),
+    path('categories/', include('categories.urls')),
+    path('product/', include('product.urls')),
+    path('subcription/', include('subcription.urls')),
+        # This is the root path '/' that returns a welcome message
 ]
